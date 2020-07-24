@@ -1,0 +1,65 @@
+<div class="main-container">
+	<header class="header-2">
+		<div class="branding">
+			<a class="nav-link">
+				<clr-icon shape="home" size="24"></clr-icon>
+				<span class="title">Project Clarity</span>
+			</a>
+		</div>
+		<div class="header-nav">
+			<a class="active nav-link nav-text">Home</a>
+		</div>
+	</header>
+	<div class="content-container">
+		<div class="content-area">
+			<h3>Clarity Starter Instructions:</h3>
+      <section>
+        <clr-datagrid #clarityGrid>
+            <clr-dg-column id="city" [clrDgField]="city" class="grid-column-city" #colCity>City</clr-dg-column>
+            <clr-dg-column id="state" [clrDgField]="state" class="grid-column-state" #colDesc>State</clr-dg-column>
+
+            <clr-dg-row *ngFor="let item of data;let rowIndex = index;" [clrDgItem]="item">
+
+              <!-- OVERFLOW ACTION MENU -->
+              <!-- Problem: Automatically Hide action menu when button is clicked -->
+              <!-- NOT WORKING -->
+              <clr-dg-action-overflow name="action-menu" #overflowActionMenu>
+                <ng-container *ngTemplateOutlet="defaultRowActionMenu; context: { $implicit: item }"></ng-container>
+              </clr-dg-action-overflow>
+
+              <!-- WORKING -->
+<!--               
+                <clr-dg-action-overflow name="action-menu" #overflowActionMenu>
+                <button clrPopoverCloseButton class="action-item" (click)="onToggleEdit(item);" *ngIf="!isEditing(item)">Edit</button>
+                <button clrPopoverCloseButton class="action-item" (click)="onToggleEdit(item);" *ngIf="isEditing(item)">Cancel Edit</button>
+                <button clrPopoverCloseButton class="action-item">Delete</button>
+              </clr-dg-action-overflow> -->
+             
+
+              <!-- Rows -->
+              <ng-container *ngIf="!isEditing(item)">
+                <clr-dg-cell>{{ item.city }} </clr-dg-cell>
+                <clr-dg-cell>{{ item.state }} </clr-dg-cell>
+              </ng-container>
+              <ng-container *ngIf="isEditing(item)">
+                <clr-dg-cell>
+                  <clr-input-container style="margin-top: 0"><input type="text" clrInput [(ngModel)]="item.city"/></clr-input-container>
+                </clr-dg-cell>
+                <clr-dg-cell>
+                  <clr-input-container style="margin-top: 0"><input type="text" clrInput [(ngModel)]="item.state"/></clr-input-container>
+                </clr-dg-cell>
+              </ng-container>
+
+            </clr-dg-row>
+        </clr-datagrid>
+        
+        <ng-template #defaultRowActionMenu let-item>
+						<button clrPopoverCloseButton class="action-item" (click)="onToggleEdit(item);" *ngIf="!isEditing(item)">Edit</button>
+						<button clrPopoverCloseButton class="action-item" (click)="onToggleEdit(item);" *ngIf="isEditing(item)">Cancel Edit</button>
+						<button clrPopoverCloseButton class="action-item">Delete</button>
+        </ng-template>
+
+      </section>
+		</div>
+	</div>
+</div>
